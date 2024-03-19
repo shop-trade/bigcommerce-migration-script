@@ -2,11 +2,11 @@ import requests
 import csv
 
 # Replace these with your actual BigCommerce API credentials
-CLIENT_ID = 'Replace'
-ACCESS_TOKEN = 'Replace'
-STORE_HASH = 'replace_path' 
+CLIENT_ID = 'replace'
+ACCESS_TOKEN = 'replace'
+STORE_HASH = 'replace'
 
-# BigCommerce API URL for fetching gift cards, without the page and limit parameters
+# Corrected BigCommerce API URL for fetching gift cards
 BASE_API_URL = f'https://api.bigcommerce.com/stores/{STORE_HASH}/v2/gift_certificates'
 
 # Set up the headers with our API credentials
@@ -38,22 +38,29 @@ def fetch_gift_cards():
 def save_to_csv(gift_cards):
     with open('gift_cards.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(['ID', 'Code', 'To Name', 'To Email', 'From Name', 'From Email', 'Amount', 'Balance', 'Status'])
+        writer.writerow([
+            'ID', 'Code', 'Amount', 'Status', 'Balance', 'To Name', 
+            'Order ID', 'Template', 'Message', 'To Email', 'From Name', 
+            'From Email', 'Customer ID', 'Expiry Date', 'Purchase Date', 
+            'Currency Code'
+        ])
         
         for card in gift_cards:
             writer.writerow([
-                card.get('id'), card.get('code'), card.get('to_name'), card.get('to_email'), 
-                card.get('from_name'), card.get('from_email'), card.get('amount'), 
-                card.get('balance'), card.get('status')
+                card.get('id'), card.get('code'), card.get('amount'), card.get('status'), 
+                card.get('balance'), card.get('to_name'), card.get('order_id'), 
+                card.get('template'), card.get('message'), card.get('to_email'), 
+                card.get('from_name'), card.get('from_email'), card.get('customer_id'), 
+                card.get('expiry_date'), card.get('purchase_date'), card.get('currency_code')
             ])
 
 def main():
     gift_cards = fetch_gift_cards()
     if gift_cards:
         save_to_csv(gift_cards)
-        print(f"Gift cards have been saved to 'gift_cards.csv'. Total records: {len(gift_cards)}")
+        print("Gift cards have been successfully saved to 'gift_cards.csv'")
     else:
-        print("No gift cards to save.")
+        print("No gift cards to save or failed to fetch gift cards.")
 
 if __name__ == "__main__":
     main()
