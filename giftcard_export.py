@@ -4,7 +4,7 @@ import csv
 # Replace these with your actual BigCommerce API credentials
 CLIENT_ID = 'Replace'
 ACCESS_TOKEN = 'Replace'
-STORE_HASH = 'replace'
+STORE_HASH = 'replace_path' 
 
 # BigCommerce API URL for fetching gift cards, without the page and limit parameters
 BASE_API_URL = f'https://api.bigcommerce.com/stores/{STORE_HASH}/v2/gift_certificates'
